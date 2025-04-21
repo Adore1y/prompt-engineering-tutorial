@@ -1,0 +1,56 @@
+\contentsline {section}{\numberline {1}引言}{2}{section.1}%
+\contentsline {section}{\numberline {2}什么是提示词工程}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}背景与重要性}{3}{subsection.2.1}%
+\contentsline {section}{\numberline {3}提示词设计四大原则}{3}{section.3}%
+\contentsline {section}{\numberline {4}常见提示词模版}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Zero-Shot Prompt}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Few-Shot Prompt}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Chain-of-Thought（CoT）}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}ReAct框架（Reasoning + Acting）}{4}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}指令 + 输出模板}{5}{subsection.4.5}%
+\contentsline {section}{\numberline {5}提示词构建框架大全}{5}{section.5}%
+\contentsline {subsection}{\numberline {5.1}ICIO框架}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}CRISPE框架}{6}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}BROKE框架}{7}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}APE框架}{8}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}RISE框架}{8}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}COAST框架}{9}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}TAG框架}{10}{subsection.5.7}%
+\contentsline {section}{\numberline {6}实战案例}{10}{section.6}%
+\contentsline {subsection}{\numberline {6.1}文本分类}{10}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}代码生成}{11}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}摘要生成}{11}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}翻译与格式化}{11}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}信息抽取（结构化输出）}{12}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}多轮对话与工具调用（ReAct）}{12}{subsection.6.6}%
+\contentsline {section}{\numberline {7}高级技巧}{12}{section.7}%
+\contentsline {subsection}{\numberline {7.1}思维链提示 (Chain-of-Thought Prompting)}{12}{subsection.7.1}%
+\contentsline {section}{\numberline {8}常见陷阱与调优}{15}{section.8}%
+\contentsline {section}{\numberline {9}评估与迭代提示词}{16}{section.9}%
+\contentsline {subsection}{\numberline {9.1}评估框架}{16}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}评估方法}{16}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}迭代策略}{17}{subsection.9.3}%
+\contentsline {section}{\numberline {10}行业应用案例}{17}{section.10}%
+\contentsline {subsection}{\numberline {10.1}医疗健康}{17}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}金融服务}{17}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}法律与合规}{18}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.4}教育与培训}{18}{subsection.10.4}%
+\contentsline {section}{\numberline {11}结语}{19}{section.11}%
+\contentsline {section}{\numberline {12}附录A：提示词工程的历史与演变}{20}{section.12}%
+\contentsline {subsection}{\numberline {12.1}从规则到神经网络}{20}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}关键里程碑}{20}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}从手工到自动化}{21}{subsection.12.3}%
+\contentsline {section}{\numberline {13}附录B：提示词工程进阶技术}{21}{section.13}%
+\contentsline {subsection}{\numberline {13.1}复杂任务分解}{21}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}提示词模板组合}{22}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.3}上下文学习优化}{22}{subsection.13.3}%
+\contentsline {subsection}{\numberline {13.4}多轮提示优化}{23}{subsection.13.4}%
+\contentsline {subsection}{\numberline {13.5}提示词安全与对抗性技术}{23}{subsection.13.5}%
+\contentsline {section}{\numberline {14}附录C：提示词工程工具与资源}{23}{section.14}%
+\contentsline {subsection}{\numberline {14.1}提示词开发工具}{24}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}提示词工程最佳实践}{24}{subsection.14.2}%
+\contentsline {subsection}{\numberline {14.3}提示词工程学习路径}{25}{subsection.14.3}%
+\contentsline {section}{\numberline {15}附录D：提示词工程的未来展望}{25}{section.15}%
+\contentsline {subsection}{\numberline {15.1}提示词自适应技术}{25}{subsection.15.1}%
+\contentsline {subsection}{\numberline {15.2}提示词工程与其他技术的融合}{26}{subsection.15.2}%
+\contentsline {subsection}{\numberline {15.3}提示词工程的伦理挑战}{26}{subsection.15.3}%
