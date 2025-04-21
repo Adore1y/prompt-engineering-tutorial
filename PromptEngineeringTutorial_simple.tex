@@ -1,0 +1,201 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{a4paper,margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newcommand{\prompt}[1]{\begin{quote}\textbf{Prompt:} \textit{#1}\end{quote}}
+\newcommand{\modeloutput}[1]{\begin{quote}\textbf{Output:} #1\end{quote}}
+\newcommand{\chapternote}[1]{\textit{\small #1}}
+
+\title{Prompt Engineering Tutorial\\
+\large Supported Models: GPT-4, DeepSeek, Claude, etc.}
+\author{Lei Zhehao}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\large\textbf{How to Use This Tutorial}
+\end{center}
+
+\noindent Dear Reader:
+
+This tutorial is designed to help you systematically master prompt engineering techniques. Whether you're just getting started with large language models or looking to improve your existing AI efficiency, you'll find value here.
+
+\textbf{How to read this tutorial}:
+\begin{itemize}
+  \item \textbf{Beginners}: We recommend reading Chapters 1-5 in sequence to grasp the basic concepts and principles
+  \item \textbf{Practitioners}: Focus on Chapters 5-7 for practical cases and common pitfalls
+  \item \textbf{Developers}: Chapters 8-9 on evaluation methods and industry applications will help you build real systems
+\end{itemize}
+
+The chapter notes at the beginning of each section will help you understand the practical value of that content.
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\chapternote{This chapter helps you understand why prompt engineering is so important and how it will change the way you interact with AI.}
+
+In the era of large language models (LLMs), \emph{prompt engineering} has become a core skill for efficiently using these models. With the rapid development of models like GPT-4, Claude, and DeepSeek, knowing how to design prompts that guide models to generate high-quality, controllable outputs has become a key bottleneck and competitive advantage for AI applications.
+
+\emph{Prompt engineering} is not just a technology but also an art, playing a crucial role in:
+\begin{itemize}
+  \item \textbf{Bridging human-machine interaction gaps}: Helping non-technical users effectively use AI through standardized instructions
+  \item \textbf{Maximizing return on investment}: Significantly improving model performance without increasing computational resources
+  \item \textbf{Unlocking hidden capabilities}: Discovering the potential of large models in complex reasoning, creative tasks, and more
+  \item \textbf{Reducing model risks}: Decreasing the probability of hallucinations, biases, and harmful outputs
+\end{itemize}
+
+\prompt{You are an AI expert. Please explain what "prompt engineering" is in simple terms.}
+
+\modeloutput{Prompt engineering is the art and science of communicating with large language models. It involves crafting carefully designed inputs (prompts) to guide models to produce high-quality outputs that meet your needs. It's like communicating with a smart but sometimes literal assistant who needs clear guidance.
+
+Think of it as choosing the right bait and technique when fishing - good prompts let you get the most valuable "catch" from a model, rather than struggling with irrelevant results.}
+
+\section{What is Prompt Engineering}
+\chapternote{Mastering the definitions and background in this chapter will help you establish a clear understanding of prompt engineering.}
+
+Prompt engineering refers to the \textbf{systematic design, optimization, and evaluation} of input text to obtain the desired output from large language models. It combines knowledge from linguistics, cognitive psychology, and machine learning, with the goal of maximizing the potential capabilities of models within limited context windows to achieve \textbf{more controllable, efficient, and accurate} human-machine interaction.
+
+\subsection{Background and Importance}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Cost Reduction:} Good prompt design can reduce the number of iterations, lowering API call costs.
+  \item \textbf{Improved Accuracy:} Clear, specific prompts significantly enhance the relevance and consistency of model outputs.
+  \item \textbf{Facilitates Automation:} Structured prompts make programmatic generation and large-scale deployment easier.
+\end{itemize}
+
+\section{Four Core Principles of Prompt Design}
+\chapternote{These four principles form the foundation of all effective prompts. Applying them skillfully will significantly increase your success rate in getting the desired outputs.}
+
+\begin{enumerate}[wide, labelwidth=!, labelsep=1em]
+  \item \textbf{Clear Role (\emph{Role})}: Assigning a specific identity or perspective to the model helps guide its behavior and tone. For example:\\
+  \texttt{You are an experienced Python programmer...}
+  
+  \item \textbf{Clear Task (\emph{Task})}: Describe the operation you expect the model to perform in a specific, unambiguous way. Avoid vague instructions. For example, instead of saying "process this data," say:\\
+  \texttt{Please calculate the average of the following numbers: [1, 2, 3, 4, 5]}
+  
+  \item \textbf{Sufficient Context (\emph{Context})}: Provide necessary background information, examples (Few-Shot), or input data to help the model understand the task environment. For example, providing reference text for summarization:\\
+  \texttt{Based on the following article [article content], generate a 100-word summary.}
+  
+  \item \textbf{Output Constraints (\emph{Format})}: Specify the expected output format, length, style, etc., for easier parsing by downstream programs or to meet specific scenario needs. For example:\\
+  \texttt{Please return the result in JSON format, including 'name' and 'age' as keys.}
+\end{enumerate}
+
+\section{Common Prompt Templates}
+\chapternote{These templates are your "prompt toolbox." Choosing the right template for different task types can make your work much more efficient.}
+
+This section summarizes five commonly used templates in practice and provides minimum viable examples (MVPs).
+
+\subsection{Zero-Shot Prompt}
+\prompt{You are an English teacher. Please correct the grammar in the following sentence: "She go to school yesterday."}
+
+\modeloutput{She went to school yesterday.}
+
+\subsection{Few-Shot Prompt}
+\prompt{Classify the following sentiments as positive/negative:\\
+Input: I really liked this movie! Output: positive\\
+Input: This product is terrible. Output: negative\\
+Input: The weather is nice today. Output: ?}
+
+\modeloutput{positive}
+
+\subsection{Chain-of-Thought (CoT)}
+\prompt{Question: A farm has 5 chickens and 3 rabbits. How many legs are there in total? Please think step by step.}
+
+\modeloutput{Thinking: Chickens have 2 legs each, while rabbits have 4 legs each.
+Calculation: 5 chickens × 2 legs = 10 legs. 3 rabbits × 4 legs = 12 legs.
+Total: 10 + 12 = 22 legs.
+Answer: There are 22 legs in total on the farm.}
+
+\subsection{ReAct Framework (Reasoning + Acting)}
+The ReAct framework combines reasoning and action capabilities through a "Thought-Action-Observation" cycle to enhance the model's problem-solving abilities:
+\begin{itemize}
+  \item \textbf{Thought}: The model analyzes the current state and formulates a solution
+  \item \textbf{Action}: Performs specific operations such as searching for information, calculations, etc.
+  \item \textbf{Observation}: Records the results of actions and incorporates them into subsequent thinking
+\end{itemize}
+
+\subsection{Instruction + Output Template}
+\prompt{Extract the person names and locations from the following text, and output them as a JSON list.
+Text: John went to New York yesterday, while Mary stayed in Boston.}
+
+\modeloutput{\texttt{
+\{
+  "persons": ["John", "Mary"],
+  "locations": ["New York", "Boston"]
+\}
+}}
+
+\section{Comprehensive Prompt Construction Frameworks}
+\chapternote{This chapter introduces various professional prompt construction frameworks. Mastering these standardized frameworks will help you design effective prompts more systematically.}
+
+\subsection{ICIO Framework}
+\textbf{Framework Structure}: Input-Context-Instruction-Output
+\begin{itemize}
+  \item \textbf{Input}: Provide the raw data or content to be processed
+  \item \textbf{Context}: Provide background information and relevant knowledge
+  \item \textbf{Instruction}: Clarify specific tasks and requirements
+  \item \textbf{Output}: Specify output format and examples
+\end{itemize}
+
+\subsection{CRISPE Framework}
+\textbf{Framework Structure}: Capacity-Request-Insight-Style-Purpose-Extra
+\begin{itemize}
+  \item \textbf{Capacity}: Specify the AI's professional role and capabilities
+  \item \textbf{Request}: Clarify specific task requirements
+  \item \textbf{Insight}: Request in-depth analysis and insights
+  \item \textbf{Style}: Specify the tone and style of the output
+  \item \textbf{Purpose}: State the ultimate goal of the task
+  \item \textbf{Extra}: Supplement with special restrictions or format requirements
+\end{itemize}
+
+\subsection{BROKE Framework}
+\textbf{Framework Structure}: Background-Role-Objective-Key information-Exclusions
+\begin{itemize}
+  \item \textbf{Background}: Background information for the project or requirement
+  \item \textbf{Role}: Specify the role assumed by the AI
+  \item \textbf{Objective}: Clarify the ultimate goal to be achieved
+  \item \textbf{Key information}: Provide necessary facts and data
+  \item \textbf{Exclusions}: Specify content that is not desired
+\end{itemize}
+
+\subsection{APE Framework}
+\textbf{Framework Structure}: Approach-Persona-Execute
+\begin{itemize}
+  \item \textbf{Approach}: Specify the methodology for solving the problem
+  \item \textbf{Persona}: Set a professional role or perspective
+  \item \textbf{Execute}: Specific execution instructions
+\end{itemize}
+
+\section{Conclusion}
+
+Prompt engineering is evolving from an early collection of "tricks" into a systematic discipline. As large language model capabilities continue to advance and application scenarios expand, mastering prompt engineering has become a core competitive advantage in the AI era.
+
+Through this tutorial, we've systematically introduced the methodology from \textbf{basic principles} to \textbf{advanced techniques}. It's important to note that prompt engineering is not static knowledge but a dynamically evolving practice. We encourage readers to:
+
+\begin{itemize}
+  \item Build your personal prompt library, accumulating effective templates
+  \item Stay informed about the latest developments in large models and adjust prompt strategies accordingly
+  \item Join communities to exchange experiences and best practices
+  \item Combine prompt engineering with domain-specific knowledge to create unique value
+\end{itemize}
+
+We hope this tutorial will help you seize opportunities in the AI era, fully unleash the potential of large models in research and production scenarios, and create greater social and economic value. Prompt engineering is not just technology, but a bridge connecting human intent with AI capabilities.
+
+\begin{center}
+\textbf{Learning never ends, and trying is the best teacher.}\\
+We wish you success in your prompt engineering journey!
+\end{center}
+
+\end{document} 
