@@ -1,0 +1,341 @@
+% !TEX program = pdflatex
+% Prompt Engineering Tutorial Document
+\documentclass[12pt]{article}
+
+% --------------------------------------------------
+% Basic Packages
+% --------------------------------------------------
+\usepackage{geometry}
+\geometry{a4paper,margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+
+% --------------------------------------------------
+% Custom Environments: Prompt / Output
+% --------------------------------------------------
+\newtcolorbox{promptbox}{%
+  enhanced, breakable, colback=blue!5, colframe=blue!40!black,
+  title=Example Prompt, coltitle=black, fonttitle=\bfseries,
+  sharp corners, boxrule=0.6pt, left=1mm, right=1mm, top=1mm, bottom=1mm}
+\newtcolorbox{outputbox}{%
+  enhanced, breakable, colback=green!5, colframe=green!40!black,
+  title=Model Output, coltitle=black, fonttitle=\bfseries,
+  sharp corners, boxrule=0.6pt, left=1mm, right=1mm, top=1mm, bottom=1mm}
+
+% --------------------------------------------------
+% Document Information
+% --------------------------------------------------
+\title{Prompt Engineering Tutorial\thanks{Supported Models: GPT-4, DeepSeek, Claude, etc.}}
+\author{Author: \href{mailto:ray12303@163.com}{Lei Zhehao}}
+\date{\today}
+
+% --------------------------------------------------
+% Preface and Document Navigation
+% --------------------------------------------------
+\newcommand{\chapternote}[1]{\vspace{-0.3cm}\par\noindent\textit{\small #1}\vspace{0.3cm}}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\large\textbf{How to Use This Tutorial}
+\end{center}
+
+\noindent Dear Reader:
+
+This tutorial is designed to help you systematically master prompt engineering techniques. Whether you're just getting started with large language models or looking to improve your existing AI efficiency, you'll find value here.
+
+\textbf{How to read this tutorial}:
+\begin{itemize}
+  \item \textbf{Beginners}: We recommend reading Chapters 1-5 in sequence to grasp the basic concepts and principles
+  \item \textbf{Practitioners}: Focus on Chapters 5-7 for practical cases and common pitfalls
+  \item \textbf{Developers}: Chapters 8-9 on evaluation methods and industry applications will help you build real systems
+\end{itemize}
+
+The \textit{chapter notes} at the beginning of each section will help you understand the practical value of that content. In the examples, blue boxes represent \textbf{prompt inputs} and green boxes represent \textbf{model outputs}.
+
+\tableofcontents
+\newpage
+
+% --------------------------------------------------
+% 1. Introduction
+% --------------------------------------------------
+\section{Introduction}
+\chapternote{This chapter helps you understand why prompt engineering is so important and how it will change the way you interact with AI.}
+
+In the era of large language models (LLMs), \emph{prompt engineering} has become a core skill for efficiently using these models. With the rapid development of models like GPT-4, Claude, and DeepSeek, knowing how to design prompts that guide models to generate high-quality, controllable outputs has become a key bottleneck and competitive advantage for AI applications.
+
+\emph{Prompt engineering} is not just a technology but also an art, playing a crucial role in:
+\begin{itemize}
+  \item \textbf{Bridging human-machine interaction gaps}: Helping non-technical users effectively use AI through standardized instructions
+  \item \textbf{Maximizing return on investment}: Significantly improving model performance without increasing computational resources
+  \item \textbf{Unlocking hidden capabilities}: Discovering the potential of large models in complex reasoning, creative tasks, and more
+  \item \textbf{Reducing model risks}: Decreasing the probability of hallucinations, biases, and harmful outputs
+\end{itemize}
+
+This tutorial will systematically introduce \textbf{basic concepts}, \textbf{design principles}, \textbf{common templates}, and \textbf{advanced techniques} of prompt engineering, accompanied by \textbf{practical cases} to help readers get started quickly. Whether you're a developer, content creator, or business decision-maker, mastering these skills will significantly improve your efficiency in collaborating with AI systems.
+
+\begin{promptbox}
+You are an AI expert. Please explain what "prompt engineering" is in simple terms.
+\end{promptbox}
+
+\begin{outputbox}
+Prompt engineering is the art and science of communicating with large language models. It involves crafting carefully designed inputs (prompts) to guide models to produce high-quality outputs that meet your needs. It's like communicating with a smart but sometimes literal assistant who needs clear guidance.
+
+Think of it as choosing the right bait and technique when fishing - good prompts let you get the most valuable "catch" from a model, rather than struggling with irrelevant results. Mastering prompt engineering means learning how to effectively communicate with these powerful but "guidance-needing" AI systems.
+\end{outputbox}
+
+% --------------------------------------------------
+% 2. What is Prompt Engineering
+% --------------------------------------------------
+\section{What is Prompt Engineering}
+\chapternote{Mastering the definitions and background in this chapter will help you establish a clear understanding of prompt engineering.}
+
+Prompt engineering refers to the \textbf{systematic design, optimization, and evaluation} of input text to obtain the desired output from large language models. It combines knowledge from linguistics, cognitive psychology, and machine learning, with the goal of maximizing the potential capabilities of models within limited context windows to achieve \textbf{more controllable, efficient, and accurate} human-machine interaction.
+
+\subsection{Background and Importance}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Cost Reduction:} Good prompt design can reduce the number of iterations, lowering API call costs.
+  \item \textbf{Improved Accuracy:} Clear, specific prompts significantly enhance the relevance and consistency of model outputs.
+  \item \textbf{Facilitates Automation:} Structured prompts make programmatic generation and large-scale deployment easier.
+\end{itemize}
+
+% --------------------------------------------------
+% 3. Four Core Principles of Prompt Design
+% --------------------------------------------------
+\section{Four Core Principles of Prompt Design}
+\chapternote{These four principles form the foundation of all effective prompts. Applying them skillfully will significantly increase your success rate in getting the desired outputs.}
+
+\begin{enumerate}[wide, labelwidth=!, labelsep=1em]
+  \item \textbf{Clear Role (\emph{Role})}: Assigning a specific identity or perspective to the model helps guide its behavior and tone. For example:\\
+  \texttt{You are an experienced Python programmer...}
+  \item \textbf{Clear Task (\emph{Task})}: Describe the operation you expect the model to perform in a specific, unambiguous way. Avoid vague instructions. For example, instead of saying "process this data," say:\\
+  \texttt{Please calculate the average of the following numbers: [1, 2, 3, 4, 5]}
+  \item \textbf{Sufficient Context (\emph{Context})}: Provide necessary background information, examples (Few-Shot), or input data to help the model understand the task environment. For example, providing reference text for summarization:\\
+  \texttt{Based on the following article [article content], generate a 100-word summary.}
+  \item \textbf{Output Constraints (\emph{Format})}: Specify the expected output format, length, style, etc., for easier parsing by downstream programs or to meet specific scenario needs. For example:\\
+  \texttt{Please return the result in JSON format, including 'name' and 'age' as keys.}
+\end{enumerate}
+
+% --------------------------------------------------
+% 4. Common Prompt Templates
+% --------------------------------------------------
+\section{Common Prompt Templates}
+\chapternote{These templates are your "prompt toolbox." Choosing the right template for different task types can make your work much more efficient.}
+
+This section summarizes five commonly used templates in practice and provides minimum viable examples (MVPs).
+
+\subsection{Zero-Shot Prompt}
+\begin{promptbox}
+You are an English teacher. Please correct the grammar in the following sentence:\\
+Sentence: She go to school yesterday.
+\end{promptbox}
+\begin{outputbox}
+She went to school yesterday.
+\end{outputbox}
+
+\subsection{Few-Shot Prompt}
+Add paired examples in the model input to guide the model through "analogical reasoning."
+\begin{promptbox}
+Classify the following sentiments as positive/negative:\\
+Input: I really liked this movie! Output: positive\\
+Input: This product is terrible. Output: negative\\
+Input: The weather is nice today. Output: ?
+\end{promptbox}
+\begin{outputbox}
+positive
+\end{outputbox}
+
+\subsection{Chain-of-Thought (CoT)}
+Ask the model to \emph{think before answering} to improve complex reasoning abilities.
+\begin{promptbox}
+Question: A farm has 5 chickens and 3 rabbits. How many legs are there in total? Please think step by step.
+\end{promptbox}
+\begin{outputbox}
+Thinking: Chickens have 2 legs each, while rabbits have 4 legs each.\\
+Calculation: 5 chickens × 2 legs = 10 legs. 3 rabbits × 4 legs = 12 legs.\\
+Total: 10 + 12 = 22 legs.\\
+Answer: There are 22 legs in total on the farm.
+\end{outputbox}
+
+\subsection{ReAct Framework (Reasoning + Acting)}
+The ReAct framework combines reasoning and action capabilities through a "Thought-Action-Observation" cycle to enhance the model's problem-solving abilities:
+\begin{itemize}
+  \item \textbf{Thought}: The model analyzes the current state and formulates a solution
+  \item \textbf{Action}: Performs specific operations such as searching for information, calculations, etc.
+  \item \textbf{Observation}: Records the results of actions and incorporates them into subsequent thinking
+\end{itemize}
+
+\textit{This framework is particularly suitable for complex tasks that require interaction with external resources (such as APIs, search engines, knowledge bases) and significantly improves model performance on multi-step problems.}
+
+\begin{promptbox}
+As an assistant, you need to find information and answer questions. Please use the ReAct method (Thought-Action-Observation cycle) to solve the problem: What is the highest peak in South America? What is its elevation?
+\end{promptbox}
+
+\begin{outputbox}
+\textbf{Thought}: I need to find the highest peak in South America. I should search for "highest peak South America."
+
+\textbf{Action}: Search[highest peak South America]
+
+\textbf{Observation}: Search results show that the highest peak in South America is Aconcagua.
+
+\textbf{Thought}: Now I know that Aconcagua is the highest peak in South America, but I still need to know its elevation.
+
+\textbf{Action}: Search[Aconcagua elevation]
+
+\textbf{Observation}: Aconcagua has an elevation of 6,962 meters (22,841 feet).
+
+\textbf{Thought}: I have found the answers to both parts of the question.
+
+The highest peak in South America is Aconcagua, with an elevation of 6,962 meters (22,841 feet).
+\end{outputbox}
+
+\subsection{Instruction + Output Template}
+Using JSON/Markdown formatting constraints to facilitate downstream parsing.
+\begin{promptbox}
+Extract the person names and locations from the following text, and output them as a JSON list.\\
+Text: John went to New York yesterday, while Mary stayed in Boston.
+\end{promptbox}
+\begin{outputbox}
+\begin{verbatim}
+{
+  "persons": ["John", "Mary"],
+  "locations": ["New York", "Boston"]
+}
+\end{verbatim}
+\end{outputbox}
+
+% --------------------------------------------------
+% 5. Comprehensive Prompt Construction Frameworks
+% --------------------------------------------------
+\section{Comprehensive Prompt Construction Frameworks}
+\chapternote{This chapter introduces various professional prompt construction frameworks. Mastering these standardized frameworks will help you design effective prompts more systematically.}
+
+In professional prompt engineering practice, using structured frameworks can greatly improve the effectiveness and consistency of prompts. This chapter introduces several widely applied frameworks, each with its specific structure and applicable scenarios.
+
+\subsection{ICIO Framework}
+
+\textbf{Framework Structure}: Input-Context-Instruction-Output
+
+\begin{itemize}
+  \item \textbf{Input}: Provide the raw data or content to be processed
+  \item \textbf{Context}: Provide background information and relevant knowledge
+  \item \textbf{Instruction}: Clarify specific tasks and requirements
+  \item \textbf{Output}: Specify output format and examples
+\end{itemize}
+
+\textbf{Applicable Scenarios}: Data processing, information extraction, text conversion, and other tasks requiring clear input/output
+
+\begin{promptbox}
+\textbf{Input}: Below is a news report about climate change.\\
+\textit{"According to recent research, global temperatures have risen by 1.1°C in the past decade, leading to a 30\% increase in extreme weather events. Scientists warn that if urgent action is not taken, sea levels could rise by 0.5 meters by 2050."}\\
+
+\textbf{Context}: You are an environmental science expert familiar with IPCC reports and climate change research.\\
+
+\textbf{Instruction}: Analyze the scientific data in this news, evaluate its accuracy, and identify parts that may be simplified or exaggerated.\\
+
+\textbf{Output}: Please organize your answer into three sections: "Data Points," "Accuracy Assessment," and "Scientific Explanation."
+\end{promptbox}
+
+\textbf{Advantages}: Complete structure, clear logic, suitable for complex information tasks
+
+\subsection{CRISPE Framework}
+
+\textbf{Framework Structure}: Capacity-Request-Insight-Style-Purpose-Extra
+
+\begin{itemize}
+  \item \textbf{Capacity}: Specify the AI's professional role and capabilities
+  \item \textbf{Request}: Clarify specific task requirements
+  \item \textbf{Insight}: Request in-depth analysis and insights
+  \item \textbf{Style}: Specify the tone and style of the output
+  \item \textbf{Purpose}: State the ultimate goal of the task
+  \item \textbf{Extra}: Supplement with special restrictions or format requirements
+\end{itemize}
+
+\textbf{Applicable Scenarios}: Professional analysis, consultative advice, in-depth assessments, and other scenarios requiring professional perspectives
+
+\begin{promptbox}
+\textbf{Capacity}: You are a marketing strategy expert with 20 years of experience, focusing on digital transformation and brand building.\\
+
+\textbf{Request}: Analyze this new electric vehicle company's market positioning strategy and provide improvement suggestions.\\
+
+\textbf{Insight}: Pay special attention to target customer segmentation, differentiated value propositions, and comparison with competitors like Tesla.\\
+
+\textbf{Style}: Use professional but easy-to-understand language, avoid marketing jargon, and include specific actionable suggestions.\\
+
+\textbf{Purpose}: Help the company adjust its market strategy, increase brand awareness, and attract early adopters.\\
+
+\textbf{Extra}: Limit the response to 500 words, use bullet points, and include 3-5 core recommendations.
+\end{promptbox}
+
+\textbf{Advantages}: Comprehensive and precise, especially suitable for consulting tasks requiring professional depth
+
+\subsection{BROKE Framework}
+
+\textbf{Framework Structure}: Background-Role-Objective-Key information-Exclusions
+
+\begin{itemize}
+  \item \textbf{Background}: Background information for the project or requirement
+  \item \textbf{Role}: Specify the role assumed by the AI
+  \item \textbf{Objective}: Clarify the ultimate goal to be achieved
+  \item \textbf{Key information}: Provide necessary facts and data
+  \item \textbf{Exclusions}: Specify content that is not desired
+\end{itemize}
+
+\textbf{Applicable Scenarios}: Creative content generation, solution design, event planning, and other creative tasks
+
+\begin{promptbox}
+\textbf{Background}: We are a medium-sized tech company planning an online tech conference to promote our new AI product.\\
+
+\textbf{Role}: You are a seasoned event planner specializing in designing tech events that attract developers.\\
+
+\textbf{Objective}: Design a 2-day virtual tech conference agenda, including keynote speeches, workshops, and interactive sessions.\\
+
+\textbf{Key information}: 
+- Target audience is AI developers and product managers
+- Budget is $50,000
+- We have 3 internal experts who can speak
+- Need to attract at least 500 participants\\
+
+\textbf{Exclusions}: 
+- Do not include physical event elements
+- Avoid overly academic content
+- Do not suggest inviting specific external speakers
+\end{promptbox}
+
+\textbf{Advantages}: Clear goals and constraints, balancing creativity and practicality
+
+\subsection{APE Framework}
+
+\textbf{Framework Structure}: Approach-Persona-Execute
+
+\begin{itemize}
+  \item \textbf{Approach}: Specify the methodology for solving the problem
+  \item \textbf{Persona}: Set a professional role or perspective
+  \item \textbf{Execute}: Specific execution instructions
+\end{itemize}
+
+\textbf{Applicable Scenarios}: Concise and efficient professional tasks, methodology-oriented problem solving
+
+\begin{promptbox}
+\textbf{Approach}: Use SWOT analysis (Strengths, Weaknesses, Opportunities, Threats)\\
+
+\textbf{Persona}: As a business strategy consultant\\
+
+\textbf{Execute}: Analyze the feasibility of this small coffee chain entering a new market where Starbucks already exists
+\end{promptbox}
+
+\textbf{Advantages}: Concise and efficient, especially suitable for professional analysis with clear methodologies
+\end{document} 
